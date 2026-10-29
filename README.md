@@ -239,7 +239,28 @@ Terraform initializes the AWS provider and configures the S3 backend.
 
 If the backend has already been initialized and its configuration has changed, review the change carefully before using backend migration or reconfiguration options.
 
-### Step 5: Validate the configuration
+### Step 5: Configure Terraform variables
+
+An example variable file is provided as `terraform.tfvars.example`. Use it to customize the project name, environment, VPC CIDR, and subnet CIDR ranges.
+
+Copy the example file to create your local variable file:
+
+```bash
+cp terraform.tfvars.example terraform.tfvars
+```
+
+Edit `terraform.tfvars` to use the values you want for your deployment. Terraform automatically loads a file named `terraform.tfvars` when running commands from the project root.
+
+Review your configuration and proposed changes before deploying:
+
+```bash
+terraform validate
+terraform plan
+```
+
+**Security note:** The local `terraform.tfvars` file is excluded from Git to help prevent accidental commits. Keep `terraform.tfvars.example` updated with safe example values, and never put AWS access keys, secret keys, or other sensitive credentials in either file.
+
+### Step 6: Validate the configuration
 
 ```bash
 terraform fmt -check
@@ -248,7 +269,7 @@ terraform validate
 
 Formatting and validation help identify configuration and syntax issues before deployment.
 
-### Step 6: Review the execution plan
+### Step 7: Review the execution plan
 
 ```bash
 terraform plan
@@ -258,7 +279,7 @@ Inspect the resources Terraform proposes to create, change, or destroy.
 
 The original deployment plan proposed creating 10 networking resources.
 
-### Step 7: Deploy the infrastructure
+### Step 8: Deploy the infrastructure
 
 Only when you are ready to incur any associated AWS charges:
 
@@ -268,7 +289,7 @@ terraform apply
 
 Review the plan and confirm it before allowing Terraform to create the resources.
 
-### Step 8: Verify the outputs and resources
+### Step 9: Verify the outputs and resources
 
 ```bash
 terraform output
